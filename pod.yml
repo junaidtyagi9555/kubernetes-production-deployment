@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: node-pod
+  
+
+spec:
+  containers:
+    - name: node-container
+      image: junaidtyagi/web-page
+      ports:
+        - containerPort: 8000
