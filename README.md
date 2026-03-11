@@ -11,34 +11,32 @@ This project demonstrates deploying a Node.js application on Kubernetes cluster 
 
 ---
 
+## 🏗️ Architecture Diagram
 
-┌─────────────────────────────────────────────────────┐
-│                   Internet                          │
-│                          │                          │
-│                          ▼                          │
-│              ┌─────────────────────┐                │
-│              │  NodePort: 30003    │                │
-│              └──────────┬──────────┘                │
-│                         │                           │
-│         ┌───────────────┼───────────────┐           │
-│         ▼               ▼               ▼           │
-│   ┌────────────┐   ┌────────────┐   ┌────────────┐  │
-│   │  Worker    │   │  Worker    │   │  Master    │  │
-│   │  Node 1    │   │  Node 2    │   │  Node      │  │
-│   │            │   │            │   │            │  │
-│   │ ┌────────┐ │   │ ┌────────┐ │   │ ┌────────┐ │  │
-│   │ │Pod 1   │ │   │ │Pod 3   │ │   │ │Control │ │  │
-│   │ │Port    │ │   │ │Port    │ │   │ │Plane   │ │  │
-│   │ │8000    │ │   │ │8000    │ │   │ │        │ │  │
-│   │ └────────┘ │   │ └────────┘ │   │ └────────┘ │  │
-│   │ ┌────────┐ │   │ ┌────────┐ │   │            │  │
-│   │ │Pod 2   │ │   │ │Pod 4   │ │   │            │  │
-│   │ │Port    │ │   │ │Port    │ │   │            │  │
-│   │ │8000    │ │   │ │8000    │ │   │            │  │
-│   │ └────────┘ │   │ └────────┘ │   │            │  │
-│   └────────────┘   └────────────┘   └────────────┘  │
-└─────────────────────────────────────────────────────┘
-
+```mermaid
+graph TB
+    subgraph Internet[Internet]
+        NP[NodePort: 30003]
+    end
+    
+    subgraph Worker1[Worker Node 1]
+        P1[Pod 1<br/>Port 8000]
+        P2[Pod 2<br/>Port 8000]
+    end
+    
+    subgraph Worker2[Worker Node 2]
+        P3[Pod 3<br/>Port 8000]
+        P4[Pod 4<br/>Port 8000]
+    end
+    
+    subgraph Master[Master Node]
+        CP[Control Plane]
+    end
+    
+    NP --> Worker1
+    NP --> Worker2
+    NP --> Master
+```
 ---
 
 ## 🖥️ AWS EC2 Instances
